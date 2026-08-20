@@ -1,0 +1,224 @@
+/* ==========================================================================
+   PREVIEW ONLY — a faithful subset of humanappealusa.org's theme.
+   --------------------------------------------------------------------------
+   These rules already exist on the live site (/css/theme-*.css,
+   /css/hero-carousel-*.css, /css/steps-block-*.css). They are reproduced here
+   so preview/index.html renders correctly as a standalone file.
+   DO NOT upload this file to Umbraco — the site already ships all of it.
+
+   Values were read directly off the live stylesheets:
+     primary #662d91 · primary-darker #32195c · primary-light #7332aa
+     brand-secondary #ed1846 · cta #e10032 · primary-lighter #ede7f2
+     grey #f6f6f6 · body #3e3e3e · green #00b37d
+     type: DIN Next (licensed). Barlow stands in for it here only.
+   ========================================================================== */
+
+*, *:before, *:after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "DIN Next", "DIN Next LT Pro", Barlow, Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.625;
+  color: #3e3e3e;
+  background-color: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6, p, ul, fieldset, blockquote { margin: 0; padding: 0; font-weight: 400; }
+
+img { max-width: 100%; }
+
+/* ------------------------------------------------------------ containers */
+
+.wrap, .wrap-large { margin: 0 auto; width: 94%; max-width: 1360px; }
+
+.grid { display: block; }
+
+@media (min-width: 1024px) {
+  .grid.grid--1-12 { display: flex; flex-wrap: wrap; margin-left: -15px; align-items: flex-start; }
+  .grid.grid--1-12 > .grid__item { margin-left: 15px; }
+  .grid.grid--1-12 > .grid__item--span-8 { width: calc(100% / 1.5 - 15px); }
+  .grid.grid--1-12 > .grid__item--span-4 { width: calc(100% / 3 - 15px); }
+}
+
+.spacer { height: 25px; }
+.spacer--sm { height: 14px; }
+
+@media (min-width: 1024px) { .spacer { height: 50px; } .spacer--sm { height: 20px; } }
+
+/* ----------------------------------------------------------- typography */
+
+.h1, .h2, .h3, .h4, .h5, .h6 { color: #662d91; }
+
+.h1 { font-size: 1.75rem; line-height: 1.1428571429; }
+.h2 { font-size: 1.5rem; line-height: 1.4166666667; }
+.h3 { font-size: 1.375rem; line-height: 1.1363636364; }
+
+@media (min-width: 1024px) {
+  .h1 { font-size: 2.625rem; line-height: 1.0952380952; }
+  .h2 { font-size: 2rem; line-height: 1.375; }
+  .h3 { font-size: 1.75rem; line-height: 1.1428571429; }
+}
+
+.text-size--large { font-size: 1.125rem; line-height: 1.4444444444; }
+@media (min-width: 1024px) { .text-size--large { font-size: 1.25rem; line-height: 1.5; } }
+
+.text-color--light { color: #fff; }
+.text-color--primary { color: #662d91; }
+.text-color--primary-darker { color: #32195c; }
+.text-color--default { color: #3e3e3e; }
+.text-transform--uppercase { text-transform: uppercase; }
+.text--center { text-align: center; }
+
+.is-sans { font-family: "DIN Next", "DIN Next LT Pro", Barlow, Helvetica, Arial, sans-serif; }
+.is-sans-medium { font-family: "DIN Next", "DIN Next LT Pro", Barlow, Helvetica, Arial, sans-serif; font-weight: 500; }
+.is-sans-bold { font-family: "DIN Next", "DIN Next LT Pro", Barlow, Helvetica, Arial, sans-serif; font-weight: 700; }
+
+.text-block__text { line-height: 1.625; }
+.para-margin-right { margin-right: 0; }
+@media (min-width: 1024px) { .para-margin-right { margin-right: 50px; } }
+
+a { color: #662d91; }
+
+/* -------------------------------------------------------------- buttons */
+
+.button {
+  padding: 19px 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: "DIN Next", "DIN Next LT Pro", Barlow, Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  line-height: 1.2142857143;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  border: none;
+  transition: all 0.125s ease-out;
+}
+
+.button--inline-block { display: inline-block; }
+
+.button--primary {
+  padding: 14px 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  background-color: #e10032;
+  color: #fff;
+  border-radius: 8px;
+}
+
+.button--primary:hover { background-color: #c82333; }
+
+.button--brand-primary { background-color: #662d91; color: #fff; padding: 14px 24px; }
+
+.button--action { position: relative; }
+
+/* ----------------------------------------------------------------- hero */
+
+.full-width-slider--outer { width: 100%; overflow: hidden; margin: 0; position: relative; }
+
+.full-width-slider__item { display: flex; flex-direction: column; }
+
+.full-width-slider__imagespacer { width: 100%; height: 256px; flex-shrink: 0; position: relative; }
+
+.full-width-slider__image { position: absolute; inset: 0; display: block; }
+.full-width-slider__image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.full-width-slider__box {
+  position: relative;
+  background: #fffffff2;
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+}
+
+.full-width-slider__box__subtitle {
+  display: inline-block;
+  align-self: flex-start;
+  color: #fff;
+  padding: 8px 20px;
+  border-radius: 25px;
+  font-size: 12px;
+  font-weight: 600;
+  margin: 0 0 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.full-width-slider__box__title { color: #7332aa; font-size: 32px; font-weight: 700; line-height: 1.2; margin: 0 0 20px; }
+
+.full-width-slider__box__intro { color: #7332aa; font-size: 16px; line-height: 1.4; margin: 0 0 24px; }
+
+.full-width-slider__box .button { align-self: flex-start; }
+
+@media (min-width: 1024px) {
+  .full-width-slider__item { display: block; position: relative; }
+  .full-width-slider__imagespacer { height: 480px; }
+  .full-width-slider__box {
+    max-width: 460px;
+    border-radius: 8px;
+    padding: 40px 43px 34px;
+    margin: -160px 0 0;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+  }
+  .full-width-slider__box__title { font-size: 40px; }
+}
+
+/* ---------------------------------------------------- list-to-grid-text */
+
+.list-to-grid-text__wrap { margin: 0 auto; width: 90.1333333333%; max-width: 656px; }
+.list-to-grid-text__inner { display: block; }
+.list-to-grid-text__item:not(:last-of-type) { margin-bottom: 29px; }
+.list-to-grid-text__item-title { margin-bottom: 21px; font-weight: 700; font-size: 1rem; line-height: 1.5; }
+.list-to-grid-text__item-text { line-height: 1.7142857143; font-weight: 300; }
+
+@media (min-width: 1024px) {
+  .list-to-grid-text__wrap { width: 85.375%; max-width: 1366px; }
+  .list-to-grid-text__inner { display: flex; justify-content: space-between; }
+  .list-to-grid-text__item:not(:last-of-type) { margin-bottom: 0; margin-right: 6.625%; }
+  .list-to-grid-text__item--1 { max-width: 900px; margin: 0 auto; }
+  .list-to-grid-text__item--3 { width: 33.33%; }
+  .list-to-grid-text__item-title { margin-bottom: 20px; font-size: 1.125rem; line-height: 1.2222222222; }
+  .list-to-grid-text__item-text { line-height: 1.75; }
+}
+
+/* ---------------------------------------------------------------- steps */
+
+.steps { padding: 0 29px; }
+.steps__title { text-align: center; margin-bottom: 44px; }
+.steps__item { width: 100%; margin-bottom: 25px; }
+.steps__divider { display: none; }
+.steps__icon { width: 100%; max-width: 128px; margin: 0 auto 18px; }
+.steps__icon img { display: block; width: 100%; }
+.steps h3 { margin-block-start: 0; }
+
+@media (min-width: 1024px) {
+  .steps { padding: 0; }
+  .steps__title { margin-bottom: 88px; }
+  .steps__list { display: flex; justify-content: space-between; }
+  .steps__item { width: 25%; padding: 0 10px; margin-bottom: 0; }
+  .steps__divider { display: block; width: 1px; height: 208px; align-self: center; background-color: #ede9f6; }
+}
+
+/* ----------------------------------------------------------- pull-quote */
+
+.pull-quote {
+  padding: 60px 25px;
+  background-image: url("https://humanappealusa.org/img/givers-club/quote-background-pattern.png");
+  background-repeat: repeat;
+  background-size: contain;
+}
+
+.pull-quote__quote { font-size: 1.5rem; line-height: 1.25; margin: 0 0 20px; max-width: 1100px; margin-inline: auto; }
+.pull-quote__cite { font-size: 1.25rem; line-height: 1; display: block; font-style: normal; }
+
+@media (min-width: 1024px) {
+  .pull-quote { padding: 100px 25px 80px; }
+  .pull-quote__quote { font-size: 2.75rem; margin: 0 auto 30px; }
+  .pull-quote__cite { font-size: 1.5rem; }
+}
