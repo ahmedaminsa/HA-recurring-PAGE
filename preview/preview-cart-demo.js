@@ -1,100 +1,40 @@
 /* ==========================================================================
-   PREVIEW ONLY — a stand-in for the site's donation cart.
+   PREVIEW ONLY — stands in for the site's basket.
    --------------------------------------------------------------------------
-   On the live site the forms carry `.__add-to-givers-club-cart` and the
-   shipped /js/jummah-club-block-*.js posts them to `data-cart-url`. That
-   script isn't available in this standalone file, so this stub fakes the
-   behaviour purely so the page can be reviewed end to end.
+   On the live site the form carries `.__add-to-givers-club-cart` and the
+   shipped basket handler posts it and moves the donor to the cart page. That
+   script isn't available in this standalone file, so this stub intercepts the
+   submit and shows what would have been sent instead.
    DO NOT upload this file to Umbraco.
    ========================================================================== */
 (function () {
   'use strict';
 
-  var section = document.querySelector('.recurring-giving#recurring-giving');
-  if (!section) return;
+  var form = document.querySelector('.rg-quiz__form');
+  if (!form) return;
 
-  var list = section.querySelector('.rg-cart__list');
-  var empty = section.querySelector('.rg-cart__empty');
-  var totalValue = section.querySelector('.rg-cart__total-value');
-  var cta = section.querySelector('.rg-cart__cta');
-  var basket = {};
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
 
-  function money(value) {
-    return '$' + Number(value).toLocaleString('en-US', { maximumFractionDigits: 2 });
-  }
-
-  function suffix() {
-    return section.getAttribute('data-frequency') === 'annual' ? 'year' : 'month';
-  }
-
-  function render() {
-    var keys = Object.keys(basket);
-    list.innerHTML = '';
-    var total = 0;
-
-    keys.forEach(function (key) {
-      total += basket[key].amount;
-      var li = document.createElement('li');
-      li.className = 'rg-cart__row';
-      var name = document.createElement('span');
-      name.className = 'rg-cart__row-name';
-      name.textContent = basket[key].name;
-      var amount = document.createElement('span');
-      amount.className = 'rg-cart__row-amount';
-      amount.textContent = money(basket[key].amount);
-      var remove = document.createElement('button');
-      remove.type = 'button';
-      remove.className = 'rg-cart__remove';
-      remove.textContent = 'Remove';
-      remove.addEventListener('click', function () {
-        delete basket[key];
-        var form = section.querySelector('form[data-cause="' + key + '"]');
-        if (form) form.querySelector('.rg-cause__button').textContent = 'Add';
-        render();
-      });
-      amount.appendChild(remove);
-      li.appendChild(name);
-      li.appendChild(amount);
-      list.appendChild(li);
+    var fields = {};
+    Array.prototype.forEach.call(form.querySelectorAll('input[type="hidden"]'), function (input) {
+      fields[input.name] = input.value;
     });
 
-    empty.hidden = keys.length > 0;
-    totalValue.innerHTML = money(total) + '<span> / <span class="rg-frequency-suffix-short">' + suffix() + '</span></span>';
-    if (cta) cta.toggleAttribute('disabled', keys.length === 0);
-  }
+    var shell = form.closest('.rg-quiz__shell');
+    var panel = document.createElement('div');
+    panel.className = 'rg-summary__box';
+    panel.style.marginTop = '24px';
+    panel.innerHTML =
+      '<p style="margin:0 0 12px;font-weight:700;color:#32195c">Preview only — this is what would be posted to the basket:</p>' +
+      '<pre style="margin:0;font:12px/1.7 ui-monospace,SFMono-Regular,Menlo,monospace;color:#3e3e3e;white-space:pre-wrap">' +
+      Object.keys(fields).map(function (key) { return key + ': ' + (fields[key] || '(empty)'); }).join('\n') +
+      '</pre>';
 
-  Array.prototype.forEach.call(section.querySelectorAll('.rg-cause'), function (cause, index) {
-    var form = cause.querySelector('form');
-    var title = cause.querySelector('.rg-cause__title');
-    if (!form || !title) return;
-    var key = 'cause-' + index;
-    form.setAttribute('data-cause', key);
-
-    form.addEventListener('submit', function (event) {
-      event.preventDefault();
-      var input = form.querySelector('.rg-cause__input');
-      var amount = Number(input.value);
-      var min = Number(input.getAttribute('min')) || 0;
-      if (!amount || amount < min) {
-        input.focus();
-        input.reportValidity ? input.reportValidity() : null;
-        return;
-      }
-      basket[key] = { name: title.textContent.trim(), amount: amount };
-      form.querySelector('.rg-cause__button').textContent = 'Update';
-      render();
-    });
+    var existing = shell.querySelector('[data-preview-dump]');
+    if (existing) existing.remove();
+    panel.setAttribute('data-preview-dump', 'true');
+    shell.appendChild(panel);
+    panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
-
-  // Amounts double when the donor switches to annual — keep the cart honest.
-  section.addEventListener('rg:frequencychange', function () {
-    Object.keys(basket).forEach(function (key) {
-      var form = section.querySelector('form[data-cause="' + key + '"]');
-      if (!form) return;
-      basket[key].amount = Number(form.querySelector('.rg-cause__input').value) || basket[key].amount;
-    });
-    render();
-  });
-
-  render();
 })();
