@@ -123,9 +123,12 @@
         amountsBox.appendChild(label);
       });
 
-      var restore = previousBase
-        ? amountsBox.querySelector('input[data-base="' + previousBase + '"]')
-        : amountsBox.querySelector('input[value="' + (amountLevels()[1] * factor) + '"]');
+      // Keep the donor's tile across a change of rhythm, but fall back to the
+      // middle one whenever the new fund doesn't offer that amount — leaving
+      // nothing selected would stall the step behind a validation error.
+      var tiles = amountsBox.querySelectorAll('input[type="radio"]');
+      var restore = (previousBase && amountsBox.querySelector('input[data-base="' + previousBase + '"]')) ||
+        tiles[Math.floor(tiles.length / 2)] || tiles[0];
       if (restore) restore.checked = true;
 
       if (customInput) {

@@ -13,6 +13,15 @@
      brand-secondary #ed1846 · cta #e10032 · green #00b37d · grey #f6f6f6
    ========================================================================== */
 
+/* The site's theme does not set a global border-box, so this block sets its
+   own. Without it every padded, bordered box here (option tiles, the amount
+   field, the summary panel) measures differently on the live site than in
+   preview. Scoped to the block — it changes nothing outside it. */
+.recurring-giving,
+.recurring-giving *,
+.recurring-giving *:before,
+.recurring-giving *:after { box-sizing: border-box; }
+
 .recurring-giving {
   --rg-primary: #662d91;
   --rg-primary-darker: #32195c;
@@ -93,7 +102,11 @@
   .rg-quiz__progress-bar { transition: none; }
 }
 
-.rg-quiz__question {
+/* Scoped under .rg-quiz on purpose. theme.css carries
+   `.form label, .form legend { font-size: .875rem; margin-bottom: 8px }` at
+   specificity 0,1,1 — an unscoped `.rg-quiz__question` (0,1,0) loses to it the
+   moment this block sits inside anything carrying the site's `.form` class. */
+.rg-quiz .rg-quiz__question {
   display: block;
   margin: 0 0 8px;
   padding: 0;
@@ -104,7 +117,10 @@
   line-height: 1.25;
 }
 
-@media (min-width: 768px) { .rg-quiz__question { font-size: 2rem; } }
+@media (min-width: 768px) { .rg-quiz .rg-quiz__question { font-size: 2rem; } }
+
+/* Same reason: our option tiles are <label>s. */
+.rg-quiz .rg-option { margin-bottom: 0; font-size: 1rem; }
 
 .rg-quiz__hint { margin: 0 0 22px; line-height: 1.6; color: #63607a; }
 
@@ -227,7 +243,7 @@
 
 .rg-quiz__custom { margin: 16px 0 0; }
 
-.rg-quiz__custom-label {
+.rg-quiz .rg-quiz__custom-label {
   display: block;
   margin: 0 0 8px;
   font-family: DIN Next, sans-serif;

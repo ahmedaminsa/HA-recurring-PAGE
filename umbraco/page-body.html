@@ -55,7 +55,11 @@
             </div>
             <p class="rg-quiz__meta" role="status">Question 1 of 4</p>
 
-            <form class="rg-quiz__form form form--donate is-sans __add-to-givers-club-cart"
+            <!-- `__add-to-givers-club-cart` is the site's JS hook and is required.
+                 The visual `form form--donate` classes are deliberately NOT used:
+                 theme.css styles `.form label, .form legend` at 0.875rem, which
+                 would flatten the question headings and the option tiles. -->
+            <form class="rg-quiz__form is-sans __add-to-givers-club-cart"
                   method="post" action="">
 
                 <!-- ------------------------------------------ Q1 · how often -->

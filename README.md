@@ -124,19 +124,23 @@ umbraco/
   UPLOAD-GUIDE.md             ← خطوات الرفع + مفاتيح CRM + checklist
 
 preview/
-  index.html                  ← معاينة كاملة، افتحها في المتصفح مباشرة
+  live-simulation.html        ← ★ الصفحة جوّه هيدر وفوتر وثيم الموقع الحقيقي
+  index.html                  ← معاينة خفيفة (بدون شكل الموقع)
+  assets/live/                ← نسخة مخزّنة من CSS وخطوط الموقع
   …                           ← ملفات معاينة فقط، متترفعش
 
-build-preview.py              ← بيبني المعاينة من page-body.html
+build-preview.py              ← يبني المعاينة الخفيفة
+build-live-preview.py         ← يبني محاكاة الموقع الحقيقي
 ```
 
-**ابدأ من:** `preview/index.html` عشان تجرّب التجربة بنفسك، وبعدين
-`umbraco/UPLOAD-GUIDE.md` للرفع.
+**ابدأ من:** `preview/live-simulation.html` — افتحه في المتصفح وجرّب التجربة
+كاملة. ده مش موك-أب: ده `page-body.html` بالظبط جوّه ماركب وستايل الموقع
+الحقيقي، فاللي هتشوفه هو اللي Umbraco هيعرضه.
 
-لإعادة بناء المعاينة بعد أي تعديل:
+بعد أي تعديل:
 
 ```bash
-python3 build-preview.py
+python3 build-preview.py && python3 build-live-preview.py
 ```
 
 ---

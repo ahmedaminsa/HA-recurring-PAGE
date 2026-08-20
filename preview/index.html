@@ -265,6 +265,15 @@ a { color: #662d91; }
      brand-secondary #ed1846 · cta #e10032 · green #00b37d · grey #f6f6f6
    ========================================================================== */
 
+/* The site's theme does not set a global border-box, so this block sets its
+   own. Without it every padded, bordered box here (option tiles, the amount
+   field, the summary panel) measures differently on the live site than in
+   preview. Scoped to the block — it changes nothing outside it. */
+.recurring-giving,
+.recurring-giving *,
+.recurring-giving *:before,
+.recurring-giving *:after { box-sizing: border-box; }
+
 .recurring-giving {
   --rg-primary: #662d91;
   --rg-primary-darker: #32195c;
@@ -345,7 +354,11 @@ a { color: #662d91; }
   .rg-quiz__progress-bar { transition: none; }
 }
 
-.rg-quiz__question {
+/* Scoped under .rg-quiz on purpose. theme.css carries
+   `.form label, .form legend { font-size: .875rem; margin-bottom: 8px }` at
+   specificity 0,1,1 — an unscoped `.rg-quiz__question` (0,1,0) loses to it the
+   moment this block sits inside anything carrying the site's `.form` class. */
+.rg-quiz .rg-quiz__question {
   display: block;
   margin: 0 0 8px;
   padding: 0;
@@ -356,7 +369,10 @@ a { color: #662d91; }
   line-height: 1.25;
 }
 
-@media (min-width: 768px) { .rg-quiz__question { font-size: 2rem; } }
+@media (min-width: 768px) { .rg-quiz .rg-quiz__question { font-size: 2rem; } }
+
+/* Same reason: our option tiles are <label>s. */
+.rg-quiz .rg-option { margin-bottom: 0; font-size: 1rem; }
 
 .rg-quiz__hint { margin: 0 0 22px; line-height: 1.6; color: #63607a; }
 
@@ -479,7 +495,7 @@ a { color: #662d91; }
 
 .rg-quiz__custom { margin: 16px 0 0; }
 
-.rg-quiz__custom-label {
+.rg-quiz .rg-quiz__custom-label {
   display: block;
   margin: 0 0 8px;
   font-family: DIN Next, sans-serif;
@@ -813,7 +829,11 @@ a { color: #662d91; }
             </div>
             <p class="rg-quiz__meta" role="status">Question 1 of 4</p>
 
-            <form class="rg-quiz__form form form--donate is-sans __add-to-givers-club-cart"
+            <!-- `__add-to-givers-club-cart` is the site's JS hook and is required.
+                 The visual `form form--donate` classes are deliberately NOT used:
+                 theme.css styles `.form label, .form legend` at 0.875rem, which
+                 would flatten the question headings and the option tiles. -->
+            <form class="rg-quiz__form is-sans __add-to-givers-club-cart"
                   method="post" action="">
 
                 <!-- ------------------------------------------ Q1 · how often -->
@@ -1302,9 +1322,12 @@ a { color: #662d91; }
         amountsBox.appendChild(label);
       });
 
-      var restore = previousBase
-        ? amountsBox.querySelector('input[data-base="' + previousBase + '"]')
-        : amountsBox.querySelector('input[value="' + (amountLevels()[1] * factor) + '"]');
+      // Keep the donor's tile across a change of rhythm, but fall back to the
+      // middle one whenever the new fund doesn't offer that amount — leaving
+      // nothing selected would stall the step behind a validation error.
+      var tiles = amountsBox.querySelectorAll('input[type="radio"]');
+      var restore = (previousBase && amountsBox.querySelector('input[data-base="' + previousBase + '"]')) ||
+        tiles[Math.floor(tiles.length / 2)] || tiles[0];
       if (restore) restore.checked = true;
 
       if (customInput) {
