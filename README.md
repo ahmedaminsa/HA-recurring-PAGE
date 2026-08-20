@@ -123,6 +123,10 @@ umbraco/
   recurring-giving-block.js   ← يترفع على /js/
   UPLOAD-GUIDE.md             ← خطوات الرفع + مفاتيح CRM + checklist
 
+handoff/
+  barakah-circle.zip          ← ★ الحزمة اللي تبعتها لفريق الموقع
+  README.md                   ← دليل إنجليزي للمطوّرين (جوّه الـzip كمان)
+
 preview/
   live-simulation.html        ← ★ الصفحة جوّه هيدر وفوتر وثيم الموقع الحقيقي
   index.html                  ← معاينة خفيفة (بدون شكل الموقع)
@@ -131,6 +135,20 @@ preview/
 
 build-preview.py              ← يبني المعاينة الخفيفة
 build-live-preview.py         ← يبني محاكاة الموقع الحقيقي
+build-handoff.py              ← يبني حزمة التسليم
+```
+
+### الحزمة اللي تبعتها لفريق الموقع
+
+`handoff/barakah-circle.zip` — جوّاها بالظبط اللي محتاجينه ومفيش زيادة:
+
+```
+barakah-circle/
+  README.md                    دليل إنجليزي: الخطوات + الـIDs + checklist
+  page-body.html               يتلصق في Umbraco
+  recurring-giving-block.css   يترفع على /css/
+  recurring-giving-block.js    يترفع على /js/
+  preview.html                 معاينة أوفلاين يفتحوها قبل ما يلمسوا حاجة
 ```
 
 **ابدأ من:** `preview/live-simulation.html` — افتحه في المتصفح وجرّب التجربة
